@@ -19,6 +19,7 @@ app.use('/cds-services', cdsServices);
 // Simple landing page that greets a visitor by name
 app.get('/welcome', (request, response) => {
   const name = request.query.name || 'guest';
+  response.set('Content-Type', 'text/html');
   response.send(`<h1>Welcome ${name}</h1>`);
 });
 
