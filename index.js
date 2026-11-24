@@ -6,6 +6,13 @@ const errorHandler = require('./middleware/error-handler');
 
 const app = express();
 
+const escapeHtml = (value) => value
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+
 // This is necessary middleware to parse JSON into the incoming request body for POST requests
 app.use(bodyParser.json());
 
@@ -18,7 +25,7 @@ app.use('/cds-services', cdsServices);
 
 // Simple landing page that greets a visitor by name
 app.get('/welcome', (request, response) => {
-  const name = request.query.name || 'guest';
+  const name = escapeHtml(String(request.query.name || 'guest'));
   response.set('Content-Type', 'text/html');
   response.send(`<h1>Welcome ${name}</h1>`);
 });
