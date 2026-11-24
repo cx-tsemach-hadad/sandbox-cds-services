@@ -16,6 +16,12 @@ app.set('json spaces', '  ');
 
 app.use('/cds-services', cdsServices);
 
+// Simple landing page that greets a visitor by name
+app.get('/welcome', (request, response) => {
+  const name = request.query.name || 'guest';
+  response.send(`<h1>Welcome ${name}</h1>`);
+});
+
 app.use((request, response, next) => {
   const err = new Error('Not Found');
   err.status = 404;
